@@ -1,8 +1,8 @@
 import streamlit as st
 from src.ui.base_layout import style_base_layout, style_background_home
-from src.database.teacher_auth import create_teacher, check_teacher_exists
+from src.database.teacher_auth import teacher_login
 
-def teacher_screen():
+def teacher_login_screen():
 
     style_background_home()
     style_base_layout()
@@ -13,6 +13,10 @@ def teacher_screen():
             st.session_state['login_type'] = None
             st.query_params.clear()
             st.rerun()
+        elif val == "teacher":
+            st.session_state['login_type'] = 'teacher'
+            st.query_params.clear()
+            st.rerun()
 
     st.markdown("""
     <style>
@@ -21,12 +25,7 @@ def teacher_screen():
     }
     [data-testid="stMain"] { background: transparent !important; }
     #MainMenu, footer, header { visibility: hidden; }
-    .block-container { 
-        padding-top: 1.5rem !important; 
-        max-width: 950px !important;
-        padding-left: 2rem !important;
-        padding-right: 2rem !important;
-    }
+    .block-container { padding-top: 1.5rem !important; max-width: 1000px !important; }
 
     .back-btn {
         display: inline-flex; align-items: center; gap: 8px;
@@ -45,7 +44,6 @@ def teacher_screen():
     }
     .page-title p { color: rgba(255,255,255,0.75); font-size: 16px; margin: 0; }
 
-    /* Remove gap between columns */
     div[data-testid="stHorizontalBlock"] {
         gap: 0 !important;
         background: white !important;
@@ -54,26 +52,17 @@ def teacher_screen():
         box-shadow: 0 12px 40px rgba(0,0,0,0.2) !important;
     }
 
-    /* Remove inner column padding/border */
-    div[data-testid="stHorizontalBlock"] > div {
-        padding: 0 !important;
-    }
-
-    /* Left column */
     div[data-testid="stHorizontalBlock"] > div:first-child {
         background: #eef1fb !important;
         border-radius: 20px 0 0 20px !important;
-        padding: 0 !important;
     }
 
-    /* Right column */
     div[data-testid="stHorizontalBlock"] > div:last-child {
         background: white !important;
         border-radius: 0 20px 20px 0 !important;
         padding: 36px 36px 28px 36px !important;
     }
 
-    /* Remove streamlit's inner wrappers padding */
     div[data-testid="stHorizontalBlock"] > div > div[data-testid="stVerticalBlockBorderWrapper"],
     div[data-testid="stHorizontalBlock"] > div > div[data-testid="stVerticalBlockBorderWrapper"] > div,
     div[data-testid="stHorizontalBlock"] > div > div[data-testid="stVerticalBlockBorderWrapper"] > div > div {
@@ -81,7 +70,6 @@ def teacher_screen():
         background: transparent !important;
         border: none !important;
         box-shadow: none !important;
-        height: 100% !important;
     }
 
     .avatar-circle {
@@ -133,8 +121,8 @@ def teacher_screen():
         font-weight: 700 !important;
     }
 
-    .login-link { text-align: center; margin-top: 12px; font-size: 14px; color: #6b7a99; }
-    .login-link a { color: #2563eb; font-weight: 600; text-decoration: none; }
+    .bottom-link { text-align: center; margin-top: 12px; font-size: 14px; color: #6b7a99; }
+    .bottom-link a { color: #2563eb; font-weight: 600; text-decoration: none; }
 
     .sa-footer { text-align: center; margin-top: 2rem; }
     .sa-footer-badge {
@@ -166,8 +154,8 @@ def teacher_screen():
     # ---- PAGE TITLE ----
     st.markdown("""
     <div class="page-title">
-        <h1>Register Your Teacher Profile</h1>
-        <p>Create your teacher account to get started</p>
+        <h1>Login using Password</h1>
+        <p>Login to your teacher account</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -184,8 +172,8 @@ def teacher_screen():
             <div class="info-box">
                 <div style="font-size:26px;flex-shrink:0;">🛡️</div>
                 <div>
-                    <h4>Join SmartAttend AI</h4>
-                    <p>Register to mark attendance, manage students and view reports seamlessly.</p>
+                    <h4>Welcome Back!</h4>
+                    <p>Login to mark attendance, manage students and view reports seamlessly.</p>
                 </div>
             </div>
         </div>
@@ -193,35 +181,27 @@ def teacher_screen():
 
     with col_right:
         st.markdown('<p class="form-label">Username</p>', unsafe_allow_html=True)
-        username = st.text_input("u", placeholder="Enter your username", key="reg_username", label_visibility="collapsed")
-
-        st.markdown('<p class="form-label">Full Name</p>', unsafe_allow_html=True)
-        fullname = st.text_input("f", placeholder="Enter your full name", key="reg_fullname", label_visibility="collapsed")
+        username = st.text_input("u", placeholder="Enter your username", key="login_username", label_visibility="collapsed")
 
         st.markdown('<p class="form-label">Password</p>', unsafe_allow_html=True)
-        password = st.text_input("p", placeholder="Enter your password", key="reg_password", type="password", label_visibility="collapsed")
+        password = st.text_input("p", placeholder="Enter your password", key="login_password", type="password", label_visibility="collapsed")
 
-        st.markdown('<p class="form-label">Confirm Password</p>', unsafe_allow_html=True)
-        confirm = st.text_input("c", placeholder="Confirm your password", key="reg_confirm", type="password", label_visibility="collapsed")
-
-        if st.button("👥  Register Now", key="register_btn"):
-            if not username or not fullname or not password or not confirm:
+        if st.button("👤  Login", key="login_btn"):
+            if not username or not password:
                 st.error("Please fill in all fields.")
-            elif password != confirm:
-                st.error("Passwords do not match!")
-            elif check_teacher_exists(username):
-                st.error("Username already taken. Please choose another.")
             else:
-                result = create_teacher(username, password, fullname)
-                if result:
-                    st.success(f"✅ Registration successful! Welcome, {fullname}!")
-                    st.balloons()
+                teacher = teacher_login(username, password)
+                if teacher:
+                    st.session_state['teacher'] = teacher
+                    st.session_state['login_type'] = 'teacher_dashboard'
+                    st.success(f"✅ Welcome back, {teacher['name']}!")
+                    st.rerun()
                 else:
-                    st.error("Something went wrong. Please try again.")
+                    st.error("❌ Invalid username or password.")
 
         st.markdown("""
-        <div class="login-link">
-            Already have an account? <a href="?portal=teacher_login">Login instead</a>
+        <div class="bottom-link">
+            Don't have an account? <a href="?portal=teacher">Register instead</a>
         </div>
         """, unsafe_allow_html=True)
 

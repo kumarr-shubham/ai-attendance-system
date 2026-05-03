@@ -112,10 +112,10 @@ def home_screen():
     </style>
     """, unsafe_allow_html=True)
 
-    # ---- LOGO ----
+   # ---- LOGO ----
     st.markdown("""
         <div style="text-align:center; margin-top:10px; margin-bottom:5px;">
-            <img src="https://raw.githubusercontent.com/kumarr-shubham/ai-attendance-system/main/assets/app_logo.png"
+            <img src="https://raw.githubusercontent.com/kumarr-shubham/ai-attendance-system/main/app_logo.png"
                  style="width:100px; border-radius:22px;"
                  onerror="this.style.display='none';">
         </div>
@@ -124,14 +124,16 @@ def home_screen():
     # ---- HEADER ----
     header_home()
 
-    # ---- PORTAL CARDS — NO st.button at all ----
+    # ---- PORTAL CARDS ----
     col1, col2 = st.columns(2)
 
     with col1:
         st.markdown("""
         <div class="portal-card">
             <div class="icon-circle">
-                <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png">
+                <img src="https://raw.githubusercontent.com/kumarr-shubham/ai-attendance-system/main/assets/student_icon.png"
+                     style="width:150px; height:150px; object-fit:contain;"
+                     onerror="this.src='https://cdn-icons-png.flaticon.com/512/4140/4140048.png';">
             </div>
             <p class="portal-title">Student Portal</p>
             <p class="portal-desc">Mark your attendance<br>and view your records.</p>
@@ -143,7 +145,9 @@ def home_screen():
         st.markdown("""
         <div class="portal-card">
             <div class="icon-circle">
-                <img src="https://cdn-icons-png.flaticon.com/512/4140/4140051.png">
+                <img src="https://raw.githubusercontent.com/kumarr-shubham/ai-attendance-system/main/assets/teacher_icon.png"
+                     style="width:150px; height:150px; object-fit:contain;"
+                     onerror="this.src='https://cdn-icons-png.flaticon.com/512/4140/4140051.png';">
             </div>
             <p class="portal-title">Teacher Portal</p>
             <p class="portal-desc">Take attendance<br>and manage records.</p>
