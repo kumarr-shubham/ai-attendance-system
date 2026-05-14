@@ -1,9 +1,19 @@
-flask
+# flask
+# flask-cors
+# supabase
+# python-dotenv
+# face_recognition
+# numpy
+# Pillow
+# bcrypt
+# PyJWT
+
+Flask
 flask-cors
+gunicorn
 supabase
 python-dotenv
-face_recognition
+opencv-python-headless
+face-recognition
 numpy
 Pillow
-bcrypt
-PyJWT
