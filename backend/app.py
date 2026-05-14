@@ -3,7 +3,7 @@ from flask_cors import CORS
 from supabase import create_client, Client
 from dotenv import load_dotenv
 import os
-import face_recognition
+#import face_recognition
 import numpy as np
 import base64
 import bcrypt
