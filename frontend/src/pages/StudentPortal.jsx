@@ -25,7 +25,7 @@ function StudentPortal() {
     if (!studentId) { navigate("/student-auth"); return; }
     fetchStats();
     fetchSubjects();
-  }, []);
+  }, [studentId]);
 
   const fetchStats = async () => {
     const res = await fetch(`https://smartattend-api-8xk0.onrender.com/student-stats/${studentId}`);

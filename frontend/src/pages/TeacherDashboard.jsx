@@ -47,7 +47,7 @@ function TeacherDashboard() {
   useEffect(() => {
     if (!teacherId) { navigate("/teacher-login"); return; }
     fetchSubjects();
-  }, []);
+  }, [fetchSubjects, navigate, teacherId]);
 
   const fetchSubjects = async () => {
     const res = await fetch(`https://smartattend-api-8xk0.onrender.com/subjects/${teacherId}`);
