@@ -46,7 +46,7 @@ function StudentAuth() {
     if (!name.trim()) return alert("Please enter your name");
     setLoading(true);
     try {
-      const res = await fetch("https://smartattend-api-8xk0.onrender.com/register-student", {
+      const res = await fetch("https://smartattend-api-8xk0.onrender.com/verify-student", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, image: photo }),
