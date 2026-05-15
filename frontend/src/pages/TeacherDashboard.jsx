@@ -47,10 +47,10 @@ function TeacherDashboard() {
   useEffect(() => {
     if (!teacherId) { navigate("/teacher-login"); return; }
     fetchSubjects();
-  }, [fetchSubjects, navigate, teacherId]);
+  }, []);
 
   const fetchSubjects = async () => {
-    const res = await fetch(`https://smartattend-api-8xk0.onrender.com/subjects/${teacherId}`);
+    const res = await fetch(`http://127.0.0.1:5000/subjects/${teacherId}`);
     const data = await res.json();
     setSubjects(data);
     if (data.length > 0) {
@@ -77,7 +77,7 @@ function TeacherDashboard() {
     if (photos.length === 0) return alert("Please add at least one photo");
     setLoading(true);
     try {
-      const res = await fetch("https://smartattend-api-8xk0.onrender.com/take-attendance", {
+      const res = await fetch("http://127.0.0.1:5000/take-attendance", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ subject_id: parseInt(selectedSubject), images: photos }),
@@ -94,7 +94,7 @@ function TeacherDashboard() {
 
   const createSubject = async () => {
     if (!subjectName || !subjectCode || !section) return alert("Fill all fields");
-    const res = await fetch("https://smartattend-api-8xk0.onrender.com/create-subject", {
+    const res = await fetch("http://127.0.0.1:5000/create-subject", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -112,13 +112,13 @@ function TeacherDashboard() {
 
   const deleteSubject = async (subjectId) => {
     if (!window.confirm("Delete this subject?")) return;
-    await fetch(`https://smartattend-api-8xk0.onrender.com/delete-subject/${subjectId}`, { method: "DELETE" });
+    await fetch(`http://127.0.0.1:5000/delete-subject/${subjectId}`, { method: "DELETE" });
     fetchSubjects();
   };
 
   const fetchRecords = async () => {
     if (!recordSubject) return;
-    const res = await fetch(`https://smartattend-api-8xk0.onrender.com/attendance-records/${recordSubject}`);
+    const res = await fetch(`http://127.0.0.1:5000/attendance-records/${recordSubject}`);
     const data = await res.json();
     setRecords(data);
   };

@@ -19,8 +19,8 @@ function TeacherLogin() {
     setLoading(true);
     try {
       const url = isLogin
-        ? "https://smartattend-api-8xk0.onrender.com/login-teacher"
-        : "https://smartattend-api-8xk0.onrender.com/register-teacher";
+        ? "http://127.0.0.1:5000/login-teacher"
+        : "http://127.0.0.1:5000/register-teacher";
 
       const body = isLogin
         ? { username, password }

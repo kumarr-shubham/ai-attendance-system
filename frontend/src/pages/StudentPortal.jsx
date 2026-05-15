@@ -25,29 +25,29 @@ function StudentPortal() {
     if (!studentId) { navigate("/student-auth"); return; }
     fetchStats();
     fetchSubjects();
-  }, [studentId]);
+  }, []);
 
   const fetchStats = async () => {
-    const res = await fetch(`https://smartattend-api-8xk0.onrender.com/student-stats/${studentId}`);
+    const res = await fetch(`http://127.0.0.1:5000/student-stats/${studentId}`);
     const data = await res.json();
     setStats(data);
   };
 
   const fetchSubjects = async () => {
-    const res = await fetch(`https://smartattend-api-8xk0.onrender.com/student-subjects/${studentId}`);
+    const res = await fetch(`http://127.0.0.1:5000/student-subjects/${studentId}`);
     const data = await res.json();
     setSubjects(data);
   };
 
   const fetchAllSubjects = async () => {
-    const res = await fetch("https://smartattend-api-8xk0.onrender.com/all-subjects");
+    const res = await fetch("http://127.0.0.1:5000/all-subjects");
     const data = await res.json();
     setAllSubjects(data);
     setShowEnroll(true);
   };
 
   const enroll = async (subjectId) => {
-    const res = await fetch("https://smartattend-api-8xk0.onrender.com/enroll", {
+    const res = await fetch("http://127.0.0.1:5000/enroll", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ student_id: parseInt(studentId), subject_id: subjectId }),
@@ -60,7 +60,7 @@ function StudentPortal() {
   };
 
   const unenroll = async (subjectId) => {
-    await fetch("https://smartattend-api-8xk0.onrender.com/unenroll", {
+    await fetch("http://127.0.0.1:5000/unenroll", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ student_id: parseInt(studentId), subject_id: subjectId }),

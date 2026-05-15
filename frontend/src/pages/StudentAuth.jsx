@@ -22,7 +22,7 @@ function StudentAuth() {
     if (!photo) return alert("Please take a photo first");
     setLoading(true);
     try {
-      const res = await fetch("https://smartattend-api-8xk0.onrender.com", {
+      const res = await fetch("http://127.0.0.1:5000/verify-student", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ image: photo }),
@@ -46,7 +46,7 @@ function StudentAuth() {
     if (!name.trim()) return alert("Please enter your name");
     setLoading(true);
     try {
-      const res = await fetch("https://smartattend-api-8xk0.onrender.com/verify-student", {
+      const res = await fetch("http://127.0.0.1:5000/register-student", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, image: photo }),
